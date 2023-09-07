@@ -19,38 +19,7 @@ except ImportError:
 
 SKIP_PATH = ["/connector/runjob", "/longpolling/", "/web_editor"]
 
-def base_dispatch(cls):
-    cls._handle_debug()
-
-    # locate the controller method
-    try:
-        rule, arguments = cls._match(request.httprequest.path)
-        func = rule.endpoint
-    except werkzeug.exceptions.NotFound as e:
-        return cls._handle_exception(e)
-
-    # check authentication level
-    try:
-        auth_method = cls._authenticate(func)
-    except Exception as e:
-        return cls._handle_exception(e)
-
-    processing = cls._postprocess_args(arguments, rule)
-    if processing:
-        return processing
-
-    # set and execute handler
-    try:
-        request.set_handler(func, arguments, auth_method)
-        result = request.dispatch()
-        if isinstance(result, Exception):
-            raise result
-    except Exception as e:
-        return cls._handle_exception(e)
-
-    return result
-
-ori_dispatch = base_dispatch
+ori_dispatch = IrHttp._dispatch
 
 
 def skip_tracing():
