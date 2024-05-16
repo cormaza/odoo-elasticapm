@@ -21,7 +21,7 @@ setup(
     use_scm_version=True,
     packages=["odoo_elasticapm"],
     include_package_data=True,
-    setup_requires=["setuptools-scm"],
+    setup_requires=["setuptools_scm==5.0.2"],
     install_requires=["elastic-apm>=5.4"],
     license="AGPLv3+",
     author="Akretion",
